@@ -1,6 +1,3 @@
-#
-# Use valid URI characters (eg: do not use _ in names)
-#
 spring:
   application:
     name: eureka-server
