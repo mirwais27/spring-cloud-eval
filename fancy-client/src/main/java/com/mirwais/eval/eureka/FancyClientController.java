@@ -23,7 +23,8 @@ import java.util.List;
 @RestController
 public class FancyClientController {
 
-    @Value("${database.url}")
+    // TODO Mirwais: This is not working with Brixton.M3 release but why?
+    //@Value("${database.url}")
     String dbURL = "EMPTY";
 
     @Autowired
