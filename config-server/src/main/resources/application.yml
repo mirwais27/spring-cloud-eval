@@ -1,0 +1,26 @@
+server:
+   port: 8888
+
+spring:
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: classpath:/database.yml
+
+eureka:
+  instance:
+    virtualHostName: configserver
+    appGroupName: fancyGroup
+    statusPageUrlPath: ${management.context-path}/info
+    healthCheckUrlPath: ${management.context-path}/health
+    easeRenewalIntervalInSeconds: 3
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    registerWithEureka: true
+    fetchRegistry: false
+    healthcheck:
+      enabled: true

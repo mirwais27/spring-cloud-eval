@@ -1,7 +1,11 @@
 package com.mirwais.eval.eureka;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +17,14 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
+@Configuration
+@EnableAutoConfiguration
 @EnableFeignClients
 @RestController
 public class FancyClientController {
+
+    @Value("${database.url}")
+    String dbURL = "EMPTY";
 
     @Autowired
     private RestTemplate restTemplate;
@@ -39,14 +48,14 @@ public class FancyClientController {
                         },
                         userId);
         exchange.getBody().forEach(System.out::println);
-        return "Got bookmarks (via rest) for user '" + userId + "'";
+        return "Got bookmarks (via rest) for user '" + userId + "'. DB-URL from config-service is: " + this.dbURL + "'";
     }
 
     @RequestMapping(path = "/{userId}/show_bookmarks_feign", method = RequestMethod.GET)
     public String showBookmarksFeign(@PathVariable String userId) {
         List<Bookmark> bookmarks = bookmarkService.getBookmarks(userId);
         bookmarks.forEach(System.out::println);
-        return "Got bookmarks (via feign) for user '" + userId + "'";
+        return "Got bookmarks (via feign) for user '" + userId + "'. DB-URL from config-service is: " + this.dbURL;
     }
 
 }
