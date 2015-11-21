@@ -20,7 +20,7 @@ import java.util.List;
 class BookmarkRestController implements BookmarkService {
 
     // TODO Mirwais: This does not work with Brixton.M3 release but why?
-    //@Value("${database.url}")
+    @Value("${database.url}")
     String dbURL = "EMPTY";
 
     @Autowired
