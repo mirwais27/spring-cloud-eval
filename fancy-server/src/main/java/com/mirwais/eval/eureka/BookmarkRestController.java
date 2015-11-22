@@ -19,7 +19,6 @@ import java.util.List;
 @ComponentScan
 class BookmarkRestController implements BookmarkService {
 
-    // TODO Mirwais: This does not work with Brixton.M3 release but why?
     @Value("${database.url}")
     String dbURL = "EMPTY";
 
@@ -32,8 +31,8 @@ class BookmarkRestController implements BookmarkService {
         return this.bookmarkRepository.findByUserId(userId);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/{userId}/bookmarks")
-    Bookmark createBookmark(@PathVariable String userId, @RequestBody Bookmark bookmark) {
+    @Override
+    public Bookmark createBookmark(@PathVariable String userId, @RequestBody Bookmark bookmark) {
         Bookmark bookmarkInstance = new Bookmark(
                 userId,
                 bookmark.getHref(),
