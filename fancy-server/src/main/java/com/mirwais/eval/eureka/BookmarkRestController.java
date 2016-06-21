@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Configuration
-@EnableAutoConfiguration
 @RestController
-@EnableDiscoveryClient
 @ComponentScan
 class BookmarkRestController implements BookmarkService {
 

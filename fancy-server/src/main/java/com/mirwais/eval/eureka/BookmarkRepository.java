@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 
 @Component
-@Configuration
-@EnableAutoConfiguration
 @ComponentScan
 public class BookmarkRepository {
 

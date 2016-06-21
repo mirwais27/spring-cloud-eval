@@ -17,8 +17,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-@Configuration
-@EnableAutoConfiguration
 @EnableFeignClients
 @RestController
 public class FancyClientController {
