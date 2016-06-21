@@ -1,6 +1,10 @@
 package com.mirwais.eval.eureka;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -8,11 +12,20 @@ import java.util.HashMap;
 import java.util.List;
 
 @Component
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
 public class BookmarkRepository {
 
     private static HashMap<String, List<Bookmark>> booksmarks = new HashMap<String, List<Bookmark>>();
 
     private Logger logger = Logger.getLogger(BookmarkRepository.class);
+
+    @Value("${server.host}")
+    String serverHost = "EMPTY";
+
+    @Value("${server.port}")
+    String serverPort = "0";
 
     public BookmarkRepository() {
         booksmarks.put("mirwais", Arrays.asList(
@@ -31,7 +44,13 @@ public class BookmarkRepository {
 
     public List<Bookmark> findByUserId(String userId) {
         List<Bookmark> bookmarks = booksmarks.get(userId);
-        logger.info("Found booksmarks for uer '" + userId + "': " + bookmarks.size());
+        for (int i = 0; i < bookmarks.size(); i++) {
+            bookmarks.get(i).setHost(this.serverHost);
+            bookmarks.get(i).setPort(this.serverPort);
+            logger.info("Bookmark-Port: " + bookmarks.get(i).getPort());
+        }
+        logger.info("Found booksmarks for uer '" + userId + "': " + bookmarks.size()
+                + " --> Port: " + this.serverPort);
         return bookmarks;
     }
 
@@ -44,4 +63,5 @@ public class BookmarkRepository {
         logger.info("Saved bookmark for user '" + bookmarkInstance.getUserId() + "': " + bookmarkInstance);
         return bookmarkInstance;
     }
+
 }

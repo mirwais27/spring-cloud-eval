@@ -15,5 +15,5 @@ public interface BookmarkService {
     List<Bookmark> getBookmarks(@PathVariable("userId") String userId);
 
     @RequestMapping(method = RequestMethod.POST, value = "/{userId}/bookmarks")
-    Bookmark createBookmark(@PathVariable String userId, @RequestBody Bookmark bookmark);
+    Bookmark createBookmark(@PathVariable("userId") String userId, @RequestBody Bookmark bookmark);
 }

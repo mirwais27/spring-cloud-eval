@@ -23,40 +23,18 @@ import java.util.List;
 @RestController
 public class FancyClientController {
 
-    // TODO Mirwais: This is not working with Brixton.M3 release but why?
-    //@Value("${database.url}")
-    String dbURL = "EMPTY";
-
-    @Autowired
-    private RestTemplate restTemplate;
-
     @Autowired
     private BookmarkService bookmarkService;
-
-    @RequestMapping("/")
-    public String home() {
-        return restTemplate.getForObject("http://fancyserver", String.class).toString() ;
-    }
-
-    @RequestMapping(path = "/{userId}/show_bookmarks_rest", method = RequestMethod.GET)
-    public String showBookmarksRest(@PathVariable String userId) {
-        ResponseEntity<List<Bookmark>> exchange =
-                this.restTemplate.exchange(
-                        "http://fancyserver/{userId}/bookmarks",
-                        HttpMethod.GET,
-                        null,
-                        new ParameterizedTypeReference<List<Bookmark>>() {
-                        },
-                        userId);
-        exchange.getBody().forEach(System.out::println);
-        return "Got bookmarks (via rest) for user '" + userId + "'. DB-URL from config-service is: " + this.dbURL + "'";
-    }
 
     @RequestMapping(path = "/{userId}/show_bookmarks_feign", method = RequestMethod.GET)
     public String showBookmarksFeign(@PathVariable String userId) {
         List<Bookmark> bookmarks = bookmarkService.getBookmarks(userId);
-        bookmarks.forEach(System.out::println);
-        return "Got bookmarks (via feign) for user '" + userId + "'. DB-URL from config-service is: " + this.dbURL;
+
+        StringBuffer returnValue = new StringBuffer();
+        for (int i = 0; i < bookmarks.size(); i++) {
+            returnValue.append(bookmarks.get(i).toString() + "<br>");
+        }
+        return "Got bookmark (via feign) for user '" + userId + "': <br>" + returnValue.toString();
     }
 
 }
