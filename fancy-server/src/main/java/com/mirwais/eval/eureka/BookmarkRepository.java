@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 
 @Component
-@ComponentScan
 public class BookmarkRepository {
 
     private static HashMap<String, List<Bookmark>> booksmarks = new HashMap<String, List<Bookmark>>();
